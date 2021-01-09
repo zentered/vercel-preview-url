@@ -9,7 +9,7 @@ inputs:
   vercel_team_id:
     description: 'Vercel team id'
     required: true
-name: vercel-preview-url
+name: Vercel Preview URL
 outputs:
   deployment_state:
     description: 'A string with the current deployment state, it could be one of the following QUEUED, BUILDING, READY, or ERROR.'

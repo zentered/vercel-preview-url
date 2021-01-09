@@ -17,6 +17,8 @@ Create a Vercel API Token: https://vercel.com/account/tokens
 
 Vercel needs a little time to build the preview, you can check the average build time in your deployments and add the seconds plus a little to a `sleep` action, to wait until the deployment is `READY`.
 
+Instead of an arbitrary time, the [Await for Vercel deployment](https://github.com/marketplace/actions/await-for-vercel-deployment) Action can be used.
+
 ```yaml
 - run: sleep 30
 - name: vercel-preview-url
@@ -27,6 +29,8 @@ Vercel needs a little time to build the preview, you can check the average build
   with:
     vercel_team_id: 'opstrace'
     vercel_project_id: 'opstrace.com'
+- name: Get URL
+  run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
 ```
 
 ## Environment Variables / Secret

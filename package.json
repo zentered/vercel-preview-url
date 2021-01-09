@@ -4,9 +4,10 @@
   "private": true,
   "description": "GitHub Action to receive the deployment preview from Vercel",
   "keywords": [
-    "GitHub",
-    "Actions",
-    "JavaScript"
+    "vercel",
+    "deployment",
+    "github",
+    "action"
   ],
   "homepage": "https://github.com/zentered/vercel-preview-url#readme",
   "bugs": {
