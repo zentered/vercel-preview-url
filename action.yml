@@ -1,0 +1,20 @@
+branding:
+  color: black
+  icon: triangle
+description: 'Receive the deployment preview URL from Vercel'
+inputs:
+  vercel_project_id:
+    description: 'Vercel project id'
+    required: false
+  vercel_team_id:
+    description: 'Vercel team id'
+    required: true
+name: vercel-preview-url
+outputs:
+  deployment_state:
+    description: 'A string with the current deployment state, it could be one of the following QUEUED, BUILDING, READY, or ERROR.'
+  preview_url:
+    description: "A string with the unique URL of the deployment. If it hasn't finished uploading (is incomplete), the value will be null."
+runs:
+  main: dist/index.js
+  using: node12
