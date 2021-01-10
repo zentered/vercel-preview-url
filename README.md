@@ -1,5 +1,10 @@
 # Vercel Preview URL
 
+![test](https://github.com/zentered/vercel-preview-url/workflows/test/badge.svg?branch=main)
+![release](https://github.com/zentered/vercel-preview-url/workflows/publish/badge.svg?branch=main)
+![Semantic Release](https://github.com/govolition/storefront-api/workflows/Semantic%20Release/badge.svg)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+
 Retrieve the preview URL from the Vercel API, filtered by the repo and branch. The URL can then be used for further end-to-end tests, link checks and other PR integrations/actions.
 
 The main difference to [Capture Vercel Preview URL](https://github.com/marketplace/actions/capture-vercel-preview-url) is that the action runs on `push` and `pull_request`, not on `issue_comment`. This enables 3rd party GitHub integrations to report directly on the Pull Request.
