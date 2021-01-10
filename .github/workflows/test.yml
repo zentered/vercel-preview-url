@@ -16,7 +16,6 @@ jobs:
         with:
           fetch-depth: 0
       - run: npm ci
-      - run: npm test
       - name: Lint Code Base
         uses: github/super-linter@v3
         env:
@@ -25,3 +24,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_JAVASCRIPT_STANDARD: false
           DEFAULT_BRANCH: main
+      - run: npm test
