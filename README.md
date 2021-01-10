@@ -1,7 +1,7 @@
 # Vercel Preview URL
 
-![test](https://github.com/zentered/vercel-preview-url/workflows/test/badge.svg?branch=main)
-![release](https://github.com/zentered/vercel-preview-url/workflows/publish/badge.svg?branch=main)
+![Test](https://github.com/zentered/vercel-preview-url/workflows/Test/badge.svg)
+![Release](https://github.com/zentered/vercel-preview-url/workflows/Publish/badge.svg)
 ![Semantic Release](https://github.com/govolition/storefront-api/workflows/Semantic%20Release/badge.svg)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
