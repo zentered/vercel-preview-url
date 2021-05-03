@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
       - run: npm ci
       - name: Lint Code Base
-        uses: github/super-linter@v3.15.5
+        uses: github/super-linter@v3.16.2
         env:
           LINTER_RULES_PATH: /
           JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
