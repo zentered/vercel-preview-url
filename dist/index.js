@@ -9,6 +9,34 @@ require('./sourcemap-register.js')
     ) {
       'use strict'
 
+      var __createBinding =
+        (this && this.__createBinding) ||
+        (Object.create
+          ? function (o, m, k, k2) {
+              if (k2 === undefined) k2 = k
+              Object.defineProperty(o, k2, {
+                enumerable: true,
+                get: function () {
+                  return m[k]
+                }
+              })
+            }
+          : function (o, m, k, k2) {
+              if (k2 === undefined) k2 = k
+              o[k2] = m[k]
+            })
+      var __setModuleDefault =
+        (this && this.__setModuleDefault) ||
+        (Object.create
+          ? function (o, v) {
+              Object.defineProperty(o, 'default', {
+                enumerable: true,
+                value: v
+              })
+            }
+          : function (o, v) {
+              o['default'] = v
+            })
       var __importStar =
         (this && this.__importStar) ||
         function (mod) {
@@ -16,11 +44,13 @@ require('./sourcemap-register.js')
           var result = {}
           if (mod != null)
             for (var k in mod)
-              if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k]
-          result['default'] = mod
+              if (k !== 'default' && Object.hasOwnProperty.call(mod, k))
+                __createBinding(result, mod, k)
+          __setModuleDefault(result, mod)
           return result
         }
       Object.defineProperty(exports, '__esModule', { value: true })
+      exports.issue = exports.issueCommand = void 0
       const os = __importStar(__nccwpck_require__(2087))
       const utils_1 = __nccwpck_require__(5278)
       /**
@@ -103,6 +133,46 @@ require('./sourcemap-register.js')
     ) {
       'use strict'
 
+      var __createBinding =
+        (this && this.__createBinding) ||
+        (Object.create
+          ? function (o, m, k, k2) {
+              if (k2 === undefined) k2 = k
+              Object.defineProperty(o, k2, {
+                enumerable: true,
+                get: function () {
+                  return m[k]
+                }
+              })
+            }
+          : function (o, m, k, k2) {
+              if (k2 === undefined) k2 = k
+              o[k2] = m[k]
+            })
+      var __setModuleDefault =
+        (this && this.__setModuleDefault) ||
+        (Object.create
+          ? function (o, v) {
+              Object.defineProperty(o, 'default', {
+                enumerable: true,
+                value: v
+              })
+            }
+          : function (o, v) {
+              o['default'] = v
+            })
+      var __importStar =
+        (this && this.__importStar) ||
+        function (mod) {
+          if (mod && mod.__esModule) return mod
+          var result = {}
+          if (mod != null)
+            for (var k in mod)
+              if (k !== 'default' && Object.hasOwnProperty.call(mod, k))
+                __createBinding(result, mod, k)
+          __setModuleDefault(result, mod)
+          return result
+        }
       var __awaiter =
         (this && this.__awaiter) ||
         function (thisArg, _arguments, P, generator) {
@@ -138,18 +208,27 @@ require('./sourcemap-register.js')
             )
           })
         }
-      var __importStar =
-        (this && this.__importStar) ||
-        function (mod) {
-          if (mod && mod.__esModule) return mod
-          var result = {}
-          if (mod != null)
-            for (var k in mod)
-              if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k]
-          result['default'] = mod
-          return result
-        }
       Object.defineProperty(exports, '__esModule', { value: true })
+      exports.getState =
+        exports.saveState =
+        exports.group =
+        exports.endGroup =
+        exports.startGroup =
+        exports.info =
+        exports.warning =
+        exports.error =
+        exports.debug =
+        exports.isDebug =
+        exports.setFailed =
+        exports.setCommandEcho =
+        exports.setOutput =
+        exports.getBooleanInput =
+        exports.getInput =
+        exports.addPath =
+        exports.setSecret =
+        exports.exportVariable =
+        exports.ExitCode =
+          void 0
       const command_1 = __nccwpck_require__(7351)
       const file_command_1 = __nccwpck_require__(717)
       const utils_1 = __nccwpck_require__(5278)
@@ -216,7 +295,9 @@ require('./sourcemap-register.js')
       }
       exports.addPath = addPath
       /**
-       * Gets the value of an input.  The value is also trimmed.
+       * Gets the value of an input.
+       * Unless trimWhitespace is set to false in InputOptions, the value is also trimmed.
+       * Returns an empty string if the value is not defined.
        *
        * @param     name     name of the input to get
        * @param     options  optional. See InputOptions.
@@ -228,9 +309,34 @@ require('./sourcemap-register.js')
         if (options && options.required && !val) {
           throw new Error(`Input required and not supplied: ${name}`)
         }
+        if (options && options.trimWhitespace === false) {
+          return val
+        }
         return val.trim()
       }
       exports.getInput = getInput
+      /**
+       * Gets the input value of the boolean type in the YAML 1.2 "core schema" specification.
+       * Support boolean input list: `true | True | TRUE | false | False | FALSE` .
+       * The return value is also in boolean type.
+       * ref: https://yaml.org/spec/1.2/spec.html#id2804923
+       *
+       * @param     name     name of the input to get
+       * @param     options  optional. See InputOptions.
+       * @returns   boolean
+       */
+      function getBooleanInput(name, options) {
+        const trueValue = ['true', 'True', 'TRUE']
+        const falseValue = ['false', 'False', 'FALSE']
+        const val = getInput(name, options)
+        if (trueValue.includes(val)) return true
+        if (falseValue.includes(val)) return false
+        throw new TypeError(
+          `Input does not meet YAML 1.2 "Core Schema" specification: ${name}\n` +
+            `Support boolean input list: \`true | True | TRUE | false | False | FALSE\``
+        )
+      }
+      exports.getBooleanInput = getBooleanInput
       /**
        * Sets the value of an output.
        *
@@ -389,6 +495,34 @@ require('./sourcemap-register.js')
       'use strict'
 
       // For internal use, subject to change.
+      var __createBinding =
+        (this && this.__createBinding) ||
+        (Object.create
+          ? function (o, m, k, k2) {
+              if (k2 === undefined) k2 = k
+              Object.defineProperty(o, k2, {
+                enumerable: true,
+                get: function () {
+                  return m[k]
+                }
+              })
+            }
+          : function (o, m, k, k2) {
+              if (k2 === undefined) k2 = k
+              o[k2] = m[k]
+            })
+      var __setModuleDefault =
+        (this && this.__setModuleDefault) ||
+        (Object.create
+          ? function (o, v) {
+              Object.defineProperty(o, 'default', {
+                enumerable: true,
+                value: v
+              })
+            }
+          : function (o, v) {
+              o['default'] = v
+            })
       var __importStar =
         (this && this.__importStar) ||
         function (mod) {
@@ -396,11 +530,13 @@ require('./sourcemap-register.js')
           var result = {}
           if (mod != null)
             for (var k in mod)
-              if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k]
-          result['default'] = mod
+              if (k !== 'default' && Object.hasOwnProperty.call(mod, k))
+                __createBinding(result, mod, k)
+          __setModuleDefault(result, mod)
           return result
         }
       Object.defineProperty(exports, '__esModule', { value: true })
+      exports.issueCommand = void 0
       // We use any as a valid input type
       /* eslint-disable @typescript-eslint/no-explicit-any */
       const fs = __importStar(__nccwpck_require__(5747))
@@ -436,6 +572,7 @@ require('./sourcemap-register.js')
       // We use any as a valid input type
       /* eslint-disable @typescript-eslint/no-explicit-any */
       Object.defineProperty(exports, '__esModule', { value: true })
+      exports.toCommandValue = void 0
       /**
        * Sanitizes an input into a string so it can be passed into issueCommand safely
        * @param input input to sanitize into a string
@@ -3180,9 +3317,8 @@ require('./sourcemap-register.js')
           createDebug.skips = []
 
           let i
-          const split = (typeof namespaces === 'string'
-            ? namespaces
-            : ''
+          const split = (
+            typeof namespaces === 'string' ? namespaces : ''
           ).split(/[\s,]+/)
           const len = split.length
 
@@ -3360,82 +3496,12 @@ require('./sourcemap-register.js')
           (supportsColor.stderr || supportsColor).level >= 2
         ) {
           exports.colors = [
-            20,
-            21,
-            26,
-            27,
-            32,
-            33,
-            38,
-            39,
-            40,
-            41,
-            42,
-            43,
-            44,
-            45,
-            56,
-            57,
-            62,
-            63,
-            68,
-            69,
-            74,
-            75,
-            76,
-            77,
-            78,
-            79,
-            80,
-            81,
-            92,
-            93,
-            98,
-            99,
-            112,
-            113,
-            128,
-            129,
-            134,
-            135,
-            148,
-            149,
-            160,
-            161,
-            162,
-            163,
-            164,
-            165,
-            166,
-            167,
-            168,
-            169,
-            170,
-            171,
-            172,
-            173,
-            178,
-            179,
-            184,
-            185,
-            196,
-            197,
-            198,
-            199,
-            200,
-            201,
-            202,
-            203,
-            204,
-            205,
-            206,
-            207,
-            208,
-            209,
-            214,
-            215,
-            220,
-            221
+            20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62,
+            63, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 92, 93, 98, 99, 112,
+            113, 128, 129, 134, 135, 148, 149, 160, 161, 162, 163, 164, 165,
+            166, 167, 168, 169, 170, 171, 172, 173, 178, 179, 184, 185, 196,
+            197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209,
+            214, 215, 220, 221
           ]
         }
       } catch (error) {
@@ -4069,9 +4135,8 @@ require('./sourcemap-register.js')
         Object.keys(protocols).forEach(function (scheme) {
           var protocol = scheme + ':'
           var nativeProtocol = (nativeProtocols[protocol] = protocols[scheme])
-          var wrappedProtocol = (exports[scheme] = Object.create(
-            nativeProtocol
-          ))
+          var wrappedProtocol = (exports[scheme] =
+            Object.create(nativeProtocol))
 
           // Executes a request, following redirects
           function request(input, options, callback) {
@@ -4268,9 +4333,10 @@ require('./sourcemap-register.js')
         if (str.length > 100) {
           return
         }
-        var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
-          str
-        )
+        var match =
+          /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+            str
+          )
         if (!match) {
           return
         }
@@ -4547,7 +4613,7 @@ require('./sourcemap-register.js')
     /***/ 696: /***/ (module) => {
       'use strict'
       module.exports = JSON.parse(
-        '{"name":"axios","version":"0.21.1","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test && bundlesize","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://github.com/axios/axios","devDependencies":{"bundlesize":"^0.17.0","coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.0.2","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^20.1.0","grunt-karma":"^2.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.2.0","karma-coverage":"^1.1.1","karma-firefox-launcher":"^1.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.2.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^5.2.0","sinon":"^4.5.0","typescript":"^2.8.1","url-search-params":"^0.10.0","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.10.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}'
+        '{"_args":[["axios@0.21.1","/Users/patrick/Sites/vercel-preview-url"]],"_from":"axios@0.21.1","_id":"axios@0.21.1","_inBundle":false,"_integrity":"sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.1","name":"axios","escapedName":"axios","rawSpec":"0.21.1","saveSpec":null,"fetchSpec":"0.21.1"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.1.tgz","_spec":"0.21.1","_where":"/Users/patrick/Sites/vercel-preview-url","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.10.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"bundlesize":"^0.17.0","coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.0.2","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^20.1.0","grunt-karma":"^2.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.2.0","karma-coverage":"^1.1.1","karma-firefox-launcher":"^1.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.2.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^5.2.0","sinon":"^4.5.0","typescript":"^2.8.1","url-search-params":"^0.10.0","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"homepage":"https://github.com/axios/axios","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test && bundlesize","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.1"}'
       )
 
       /***/
@@ -4631,25 +4697,29 @@ require('./sourcemap-register.js')
     }
 
     /******/
-  } // The module cache
+  }
   /************************************************************************/
-  /******/ /******/ var __webpack_module_cache__ = {} // The require function
+  /******/ // The module cache
+  /******/ var __webpack_module_cache__ = {}
   /******/
-  /******/ /******/ function __nccwpck_require__(moduleId) {
+  /******/ // The require function
+  /******/ function __nccwpck_require__(moduleId) {
     /******/ // Check if module is in cache
     /******/ var cachedModule = __webpack_module_cache__[moduleId]
     /******/ if (cachedModule !== undefined) {
       /******/ return cachedModule.exports
       /******/
-    } // Create a new module (and put it into the cache)
-    /******/ /******/ var module = (__webpack_module_cache__[moduleId] = {
+    }
+    /******/ // Create a new module (and put it into the cache)
+    /******/ var module = (__webpack_module_cache__[moduleId] = {
       /******/ // no module.id needed
       /******/ // no module.loaded needed
       /******/ exports: {}
       /******/
-    }) // Execute the module function
+    })
     /******/
-    /******/ /******/ var threw = true
+    /******/ // Execute the module function
+    /******/ var threw = true
     /******/ try {
       /******/ __webpack_modules__[moduleId].call(
         module.exports,
@@ -4662,14 +4732,16 @@ require('./sourcemap-register.js')
     } finally {
       /******/ if (threw) delete __webpack_module_cache__[moduleId]
       /******/
-    } // Return the exports of the module
+    }
     /******/
-    /******/ /******/ return module.exports
+    /******/ // Return the exports of the module
+    /******/ return module.exports
     /******/
-  } /* webpack/runtime/make namespace object */
+  }
   /******/
   /************************************************************************/
-  /******/ /******/ ;(() => {
+  /******/ /* webpack/runtime/make namespace object */
+  /******/ ;(() => {
     /******/ // define __esModule on exports
     /******/ __nccwpck_require__.r = (exports) => {
       /******/ if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
@@ -4682,9 +4754,10 @@ require('./sourcemap-register.js')
       /******/
     }
     /******/
-  })() /* webpack/runtime/compat */
+  })()
   /******/
-  /******/ /******/
+  /******/ /* webpack/runtime/compat */
+  /******/
   /******/ if (typeof __nccwpck_require__ !== 'undefined')
     __nccwpck_require__.ab =
       __dirname +
