@@ -223,6 +223,7 @@ require('./sourcemap-register.js')
         exports.setCommandEcho =
         exports.setOutput =
         exports.getBooleanInput =
+        exports.getMultilineInput =
         exports.getInput =
         exports.addPath =
         exports.setSecret =
@@ -315,6 +316,21 @@ require('./sourcemap-register.js')
         return val.trim()
       }
       exports.getInput = getInput
+      /**
+       * Gets the values of an multiline input.  Each value is also trimmed.
+       *
+       * @param     name     name of the input to get
+       * @param     options  optional. See InputOptions.
+       * @returns   string[]
+       *
+       */
+      function getMultilineInput(name, options) {
+        const inputs = getInput(name, options)
+          .split('\n')
+          .filter((x) => x !== '')
+        return inputs
+      }
+      exports.getMultilineInput = getMultilineInput
       /**
        * Gets the input value of the boolean type in the YAML 1.2 "core schema" specification.
        * Support boolean input list: `true | True | TRUE | false | False | FALSE` .
