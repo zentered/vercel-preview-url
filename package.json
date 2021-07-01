@@ -65,7 +65,7 @@
     "jest-config": "^26.6.3",
     "pinst": "^2.1.6",
     "prettier": "^2.3.0",
-    "webpack": "^5.38.1"
+    "webpack": "^5.41.1"
   },
   "release": {
     "branches": [
