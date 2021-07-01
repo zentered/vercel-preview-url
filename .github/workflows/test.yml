@@ -25,4 +25,5 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_JAVASCRIPT_STANDARD: false
           DEFAULT_BRANCH: main
+          FILTER_REGEX_EXCLUDE: licenses.txt
       - run: npm test
