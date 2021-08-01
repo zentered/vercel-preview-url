@@ -60,7 +60,7 @@
     "eslint": "^7.29.0",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^7.0.0",
+    "husky": "^7.0.1",
     "jest": "^27.0.6",
     "jest-config": "^27.0.6",
     "pinst": "^2.1.6",
