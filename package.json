@@ -24,8 +24,8 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "all": "npm run lint && npm run test && npm run prepare",
-    "lint": "eslint .",
+    "build": "npm run lint && npm run test && npm run prepare",
+    "lint": "eslint . --ext .js --ext .jsx --ext md --ext mdx",
     "prepare": "ncc build index.mjs -o dist --source-map --license licenses.txt",
     "test": "jest",
     "postinstall": "husky install",
@@ -51,21 +51,23 @@
     "querystring": "^0.2.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.14.7",
-    "@commitlint/config-conventional": "^12.1.4",
-    "@vercel/ncc": "^0.28.6",
+    "@babel/preset-env": "^7.14.9",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@vercel/ncc": "^0.29.0",
     "babel-jest": "^27.0.6",
-    "commitlint": "^12.1.4",
+    "commitlint": "^13.1.0",
     "dotenv": "^10.0.0",
-    "eslint": "^7.29.0",
-    "eslint-plugin-jest": "^24.3.6",
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-markdown": "^2.2.0",
+    "eslint-plugin-mdx": "^1.14.1",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^7.0.0",
+    "husky": "^7.0.1",
     "jest": "^27.0.6",
     "jest-config": "^27.0.6",
     "pinst": "^2.1.6",
     "prettier": "^2.3.2",
-    "webpack": "^5.41.1"
+    "webpack": "^5.47.1"
   },
   "release": {
     "branches": [
