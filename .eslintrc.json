@@ -9,7 +9,9 @@
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:mdx/recommended",
+    "plugin:markdown/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 12,
