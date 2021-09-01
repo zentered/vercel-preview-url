@@ -53,7 +53,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.15.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@vercel/ncc": "^0.28.6",
+    "@vercel/ncc": "^0.30.0",
     "babel-jest": "^27.1.0",
     "commitlint": "^13.1.0",
     "dotenv": "^10.0.0",
