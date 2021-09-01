@@ -46,28 +46,28 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.4.0",
+    "@actions/core": "^1.5.0",
     "axios": "^0.21.1",
     "querystring": "^0.2.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.14.9",
+    "@babel/preset-env": "^7.15.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@vercel/ncc": "^0.29.0",
-    "babel-jest": "^27.0.6",
+    "@vercel/ncc": "^0.28.6",
+    "babel-jest": "^27.1.0",
     "commitlint": "^13.1.0",
     "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-markdown": "^2.2.0",
-    "eslint-plugin-mdx": "^1.14.1",
+    "eslint-plugin-mdx": "^1.15.0",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^7.0.1",
-    "jest": "^27.0.6",
-    "jest-config": "^27.0.6",
+    "husky": "^7.0.2",
+    "jest": "^27.1.0",
+    "jest-config": "^27.1.0",
     "pinst": "^2.1.6",
     "prettier": "^2.3.2",
-    "webpack": "^5.47.1"
+    "webpack": "^5.51.1"
   },
   "release": {
     "branches": [
