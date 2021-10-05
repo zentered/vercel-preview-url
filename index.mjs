@@ -16,7 +16,8 @@ async function run() {
       vercelToken,
       githubRepo,
       githubBranch,
-      teamId
+      teamId,
+      projectId
     )
 
     core.setOutput('preview_url', url)
