@@ -1,6 +1,5 @@
 require('./sourcemap-register.js')
-/******/
-;(() => {
+/******/ ;(() => {
   // webpackBootstrap
   /******/ var __webpack_modules__ = {
     /***/ 7351: /***/ function (
@@ -4829,7 +4828,7 @@ require('./sourcemap-register.js')
     var axios = __nccwpck_require__(6545) // CONCATENATED MODULE: external "querystring"
     const external_querystring_namespaceObject = require('querystring') // CONCATENATED MODULE: ./vercel.mjs
     const apiUrl = 'https://api.vercel.com'
-    const deploymentsUrl = '/v12/now/deployments'
+    const deploymentsUrl = '/v5/now/deployments'
 
     async function getDeploymentUrl(token, repo, branch, teamId, projectId) {
       const query = {
