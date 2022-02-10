@@ -3,18 +3,36 @@ import axios from 'axios'
 import querystring from 'querystring'
 
 const apiUrl = 'https://api.vercel.com'
-const deploymentsUrl = '/v5/now/deployments'
+const deploymentsUrl = '/v6/now/deployments'
 
 export default async function getDeploymentUrl(
   token,
   repo,
   branch,
+  app,
+  from,
+  limit,
+  projectId,
+  since,
+  state,
+  target,
   teamId,
-  projectId
+  to,
+  until,
+  users
 ) {
   const query = {
+    app,
+    from,
+    limit,
+    projectId,
+    since,
+    state,
+    target,
     teamId,
-    projectId
+    to,
+    until,
+    users
   }
   const qs = querystring.stringify(query)
 
