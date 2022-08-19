@@ -46,7 +46,7 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.9.1",
     "axios": "^0.22.0",
     "querystring": "^0.2.1"
   },
