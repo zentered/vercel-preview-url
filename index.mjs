@@ -8,34 +8,28 @@ async function run() {
     const githubProject = process.env.GITHUB_REPOSITORY
     const githubBranch = githubRef.replace('refs/heads/', '')
     const githubRepo = githubProject.split('/')[1]
-    const vApp = core.getInput('vercel_app')
-    const vFrom = core.getInput('vercel_from')
-    const vLimit = core.getInput('vercel_limit')
-    const vProjectId = core.getInput('vercel_project_id')
-    const vSince = core.getInput('vercel_since')
-    const vState = core.getInput('vercel_state')
-    const vTarget = core.getInput('vercel_target')
-    const vTeamId = core.getInput('vercel_team_id')
-    const vTo = core.getInput('vercel_to')
-    const vUntil = core.getInput('vercel_until')
-    const vUsers = core.getInput('vercel_users')
+    const vercelOptions = {
+      app: core.getInput('vercel_app'),
+      from: core.getInput('vercel_from'),
+      limit: core.getInput('vercel_limit'),
+      projectId: core.getInput('vercel_project_id'),
+      since: core.getInput('vercel_since'),
+      state: core.getInput('vercel_state'),
+      target: core.getInput('vercel_target'),
+      teamId: core.getInput('vercel_team_id'),
+      to: core.getInput('vercel_to'),
+      until: core.getInput('vercel_until'),
+      users: core.getInput('vercel_users')
+    }
 
-    core.info(`Retrieving deployment preview for ${vTeamId}/${vProjectId} ...`)
+    core.info(
+      `Retrieving deployment preview for ${vercelOptions.teamId}/${vercelOptions.projectId} ...`
+    )
     const { url, state } = await getDeploymentUrl(
       vercelToken,
       githubRepo,
       githubBranch,
-      vApp,
-      vFrom,
-      vLimit,
-      vProjectId,
-      vSince,
-      vState,
-      vTarget,
-      vTeamId,
-      vTo,
-      vUntil,
-      vUsers
+      vercelOptions
     )
 
     core.setOutput('preview_url', url)

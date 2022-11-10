@@ -5,34 +5,19 @@ import querystring from 'querystring'
 const apiUrl = 'https://api.vercel.com'
 const deploymentsUrl = '/v6/now/deployments'
 
-export default async function getDeploymentUrl(
-  token,
-  repo,
-  branch,
-  app,
-  from,
-  limit,
-  projectId,
-  since,
-  state,
-  target,
-  teamId,
-  to,
-  until,
-  users
-) {
+export default async function getDeploymentUrl(token, repo, branch, options) {
   const query = {
-    app,
-    from,
-    limit,
-    projectId,
-    since,
-    state,
-    target,
-    teamId,
-    to,
-    until,
-    users
+    app: options.app,
+    from: options.from,
+    limit: options.limit,
+    projectId: options.projectId,
+    since: options.since,
+    state: options.state,
+    target: options.target,
+    teamId: options.teamId,
+    to: options.to,
+    until: options.until,
+    users: options.users
   }
   const qs = querystring.stringify(query)
 
