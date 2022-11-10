@@ -11,10 +11,14 @@ The main difference to [Capture Vercel Preview URL](https://github.com/marketpla
 
 ## Table of Contents
 
-- [Usage](#usage)
-- [Environment Variables](#environment-variables--secret)
-- [Inputs](#inputs)
-- [Outputs](#outputs)
+- [Vercel Preview URL](#vercel-preview-url)
+  - [Table of Contents](#table-of-contents)
+  - [Usage](#usage)
+  - [Environment Variables / Secret](#environment-variables--secret)
+  - [Inputs](#inputs)
+  - [Outputs](#outputs)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Usage
 
@@ -44,10 +48,20 @@ In the repository, go to "Settings", then "Secrets" and add "VERCEL_TOKEN", the 
 
 ## Inputs
 
-| Name                | Requirement | Description       |
-| ------------------- | ----------- | ----------------- |
-| `vercel_team_id`    | required    | Vercel team id    |
-| `vercel_project_id` | optional    | Vercel project id |
+To see more information on inputs, see the [Vercel Documentation](https://vercel.com/docs/rest-api#endpoints/deployments/list-deployments).
+
+| Name                | Requirement | Type      | Description                  |
+| ------------------- | ----------- | --------- |----------------------------- |
+| `vercel_team_id`    | required    | string    | Team id                      |
+| `vercel_app`        | optional    | string    | Name of the deployment       |
+| `vercel_from`       | optional    | timestamp | Deployment after this date   |
+| `vercel_project_id` | optional    | string    | Vercel project id            |
+| `vercel_since`      | optional    | timestamp | Deployment since this date   |
+| `vercel_state`      | optional    | string    | Filter on state              |
+| `vercel_target`     | optional    | string    | Deployment environment       |
+| `vercel_to`         | optional    | timestamp | Deployment before this date  |
+| `vercel_until`      | optional    | timestamp | Deployment before this date  |
+| `vercel_users`      | optional    | string    | Filter on created by user(s) |
 
 ## Outputs
 
