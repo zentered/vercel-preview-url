@@ -2,7 +2,7 @@
 
 ![Test](https://github.com/zentered/vercel-preview-url/workflows/Test/badge.svg)
 ![Release](https://github.com/zentered/vercel-preview-url/workflows/Publish/badge.svg)
-![Semantic Release](https://github.com/govolition/storefront-api/workflows/Semantic%20Release/badge.svg)
+[![semantic-release: conventional](https://img.shields.io/badge/semantic--release-conventional-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 Retrieve the preview URL from the Vercel API, filtered by the repo and branch. The URL can then be used for further end-to-end tests, link checks and other PR integrations/actions.
@@ -51,7 +51,7 @@ In the repository, go to "Settings", then "Secrets" and add "VERCEL_TOKEN", the 
 To see more information on inputs, see the [Vercel Documentation](https://vercel.com/docs/rest-api#endpoints/deployments/list-deployments).
 
 | Name                | Requirement | Type      | Description                  |
-| ------------------- | ----------- | --------- |----------------------------- |
+| ------------------- | ----------- | --------- | ---------------------------- |
 | `vercel_team_id`    | required    | string    | Team id                      |
 | `vercel_app`        | optional    | string    | Name of the deployment       |
 | `vercel_from`       | optional    | timestamp | Deployment after this date   |
