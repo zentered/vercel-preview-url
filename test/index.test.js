@@ -1,15 +1,10 @@
+/* eslint-disable node/no-unpublished-import */
 /* eslint-disable node/no-unsupported-features/es-syntax */
-import getDeploymentUrl from './vercel.mjs'
+import { vi, test, expect } from 'vitest'
+import getDeploymentUrl from '../src/vercel.js'
 import axios from 'axios'
 
-jest.mock('@actions/core', () => {
-  return {
-    info: jest.fn(),
-    debug: jest.fn(),
-    error: jest.fn()
-  }
-})
-jest.mock('axios')
+vi.mock('axios')
 
 test('getDeploymentUrl() should return a Vercel build', async () => {
   const data = {

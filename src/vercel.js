@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 import core from '@actions/core'
 import axios from 'axios'
 import querystring from 'querystring'

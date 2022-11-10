@@ -1,5 +1,6 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 import core from '@actions/core'
-import getDeploymentUrl from './vercel.mjs'
+import getDeploymentUrl from './vercel.js'
 
 async function run() {
   try {
@@ -9,14 +10,14 @@ async function run() {
     const githubBranch = githubRef.replace('refs/heads/', '')
     const githubRepo = githubProject.split('/')[1]
     const vercelOptions = {
+      teamId: core.getInput('vercel_team_id', { required: true }),
+      projectId: core.getInput('vercel_project_id', { required: true }),
       app: core.getInput('vercel_app'),
       from: core.getInput('vercel_from'),
       limit: core.getInput('vercel_limit'),
-      projectId: core.getInput('vercel_project_id'),
       since: core.getInput('vercel_since'),
       state: core.getInput('vercel_state'),
       target: core.getInput('vercel_target'),
-      teamId: core.getInput('vercel_team_id'),
       to: core.getInput('vercel_to'),
       until: core.getInput('vercel_until'),
       users: core.getInput('vercel_users')
