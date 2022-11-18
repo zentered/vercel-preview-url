@@ -6982,50 +6982,6 @@ require('./sourcemap-register.js')
   }
   /******/
   /************************************************************************/
-  /******/ /* webpack/runtime/compat get default export */
-  /******/ ;(() => {
-    /******/ // getDefaultExport function for compatibility with non-harmony modules
-    /******/ __nccwpck_require__.n = (module) => {
-      /******/ var getter =
-        module && module.__esModule
-          ? /******/ () => module['default']
-          : /******/ () => module
-      /******/ __nccwpck_require__.d(getter, { a: getter })
-      /******/ return getter
-      /******/
-    }
-    /******/
-  })()
-  /******/
-  /******/ /* webpack/runtime/define property getters */
-  /******/ ;(() => {
-    /******/ // define getter functions for harmony exports
-    /******/ __nccwpck_require__.d = (exports, definition) => {
-      /******/ for (var key in definition) {
-        /******/ if (
-          __nccwpck_require__.o(definition, key) &&
-          !__nccwpck_require__.o(exports, key)
-        ) {
-          /******/ Object.defineProperty(exports, key, {
-            enumerable: true,
-            get: definition[key]
-          })
-          /******/
-        }
-        /******/
-      }
-      /******/
-    }
-    /******/
-  })()
-  /******/
-  /******/ /* webpack/runtime/hasOwnProperty shorthand */
-  /******/ ;(() => {
-    /******/ __nccwpck_require__.o = (obj, prop) =>
-      Object.prototype.hasOwnProperty.call(obj, prop)
-    /******/
-  })()
-  /******/
   /******/ /* webpack/runtime/make namespace object */
   /******/ ;(() => {
     /******/ // define __esModule on exports
@@ -7056,8 +7012,7 @@ require('./sourcemap-register.js')
     __nccwpck_require__.r(__webpack_exports__)
 
     // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
-    var core = __nccwpck_require__(2186)
-    var core_default = /*#__PURE__*/ __nccwpck_require__.n(core) // CONCATENATED MODULE: ./node_modules/axios/lib/helpers/bind.js
+    var core = __nccwpck_require__(2186) // CONCATENATED MODULE: ./node_modules/axios/lib/helpers/bind.js
     function bind(fn, thisArg) {
       return function wrap() {
         return fn.apply(thisArg, arguments)
@@ -8280,7 +8235,7 @@ require('./sourcemap-register.js')
 
     // EXTERNAL MODULE: external "url"
     var external_url_ = __nccwpck_require__(7310) // CONCATENATED MODULE: ./node_modules/axios/lib/platform/node/classes/URLSearchParams.js
-    /* harmony default export */ const URLSearchParams =
+    /* harmony default export */ const classes_URLSearchParams =
       external_url_.URLSearchParams // CONCATENATED MODULE: ./node_modules/axios/lib/platform/node/classes/FormData.js
 
     /* harmony default export */ const node_classes_FormData = form_data // CONCATENATED MODULE: ./node_modules/axios/lib/platform/node/index.js
@@ -8288,7 +8243,7 @@ require('./sourcemap-register.js')
     /* harmony default export */ const node = {
       isNode: true,
       classes: {
-        URLSearchParams: URLSearchParams,
+        URLSearchParams: classes_URLSearchParams,
         FormData: node_classes_FormData,
         Blob: (typeof Blob !== 'undefined' && Blob) || null
       },
@@ -11348,34 +11303,24 @@ require('./sourcemap-register.js')
       toFormData: axios_toFormData
     } = lib_axios
 
-    /* harmony default export */ const node_modules_axios = lib_axios // CONCATENATED MODULE: external "querystring"
+    /* harmony default export */ const node_modules_axios = lib_axios // CONCATENATED MODULE: ./src/vercel.js
 
-    const external_querystring_namespaceObject = require('querystring')
-    var external_querystring_default = /*#__PURE__*/ __nccwpck_require__.n(
-      external_querystring_namespaceObject
-    ) // CONCATENATED MODULE: ./src/vercel.js
+    /* eslint-disable node/no-unsupported-features/es-syntax */
+
     const apiUrl = 'https://api.vercel.com'
     const deploymentsUrl = '/v6/now/deployments'
 
     async function getDeploymentUrl(token, repo, branch, options) {
-      const query = {
-        app: options.app,
-        from: options.from,
-        limit: options.limit,
-        projectId: options.projectId,
-        since: options.since,
-        state: options.state,
-        target: options.target,
-        teamId: options.teamId,
-        to: options.to,
-        until: options.until,
-        users: options.users
-      }
-      const qs = external_querystring_default().stringify(query)
+      let query = new URLSearchParams()
+      Object.keys(options).forEach((key) => {
+        if (options[key] && options[key] !== '') {
+          query.append(key, options[key])
+        }
+      })
 
-      core_default().info(`Fetching from: ${apiUrl}${deploymentsUrl}?${qs}`)
+      core.info(`Fetching from: ${apiUrl}${deploymentsUrl}?${query.toString()}`)
       const { data } = await node_modules_axios.get(
-        `${apiUrl}${deploymentsUrl}?${qs}`,
+        `${apiUrl}${deploymentsUrl}?${query.toString()}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -11385,12 +11330,12 @@ require('./sourcemap-register.js')
       )
 
       if (!data || !data.deployments || data.deployments.length <= 0) {
-        core_default().error(JSON.stringify(data, null, 2))
+        core.error(JSON.stringify(data, null, 2))
         throw new Error('no deployments found')
       }
 
-      core_default().debug(`Found ${data.deployments.length} deployments`)
-      core_default().debug(`Looking for matching deployments ${repo}/${branch}`)
+      core.debug(`Found ${data.deployments.length} deployments`)
+      core.debug(`Looking for matching deployments ${repo}/${branch}`)
       const builds = data.deployments.filter((deployment) => {
         return (
           deployment.meta.githubCommitRepo === repo &&
@@ -11398,19 +11343,21 @@ require('./sourcemap-register.js')
         )
       })
 
-      core_default().debug(`Found ${builds.length} matching builds`)
+      core.debug(`Found ${builds.length} matching builds`)
       if (!builds || builds.length <= 0) {
-        core_default().error(JSON.stringify(builds, null, 2))
+        core.error(JSON.stringify(builds, null, 2))
         throw new Error('no deployments found')
       }
 
       const build = builds[0]
-      core_default().info(`Preview URL: https://${build.url} (${build.state})`)
+      core.info(`Preview URL: https://${build.url} (${build.state})`)
       return {
         url: build.url,
         state: build.state
       }
     } // CONCATENATED MODULE: ./src/index.js
+
+    /* eslint-disable node/no-unsupported-features/es-syntax */
 
     async function run() {
       try {
@@ -11420,24 +11367,20 @@ require('./sourcemap-register.js')
         const githubBranch = githubRef.replace('refs/heads/', '')
         const githubRepo = githubProject.split('/')[1]
         const vercelOptions = {
-          teamId: core_default().getInput('vercel_team_id', { required: true }),
-          projectId: core_default().getInput('vercel_project_id', {
-            required: true
-          }),
-          app: core_default().getInput('vercel_app'),
-          from: core_default().getInput('vercel_from'),
-          limit: core_default().getInput('vercel_limit'),
-          since: core_default().getInput('vercel_since'),
-          state: core_default().getInput('vercel_state'),
-          target: core_default().getInput('vercel_target'),
-          to: core_default().getInput('vercel_to'),
-          until: core_default().getInput('vercel_until'),
-          users: core_default().getInput('vercel_users')
+          projectId: core.getInput('vercel_project_id'),
+          teamId: core.getInput('vercel_team_id'),
+          app: core.getInput('vercel_app'),
+          from: core.getInput('vercel_from'),
+          limit: core.getInput('vercel_limit'),
+          since: core.getInput('vercel_since'),
+          state: core.getInput('vercel_state'),
+          target: core.getInput('vercel_target'),
+          to: core.getInput('vercel_to'),
+          until: core.getInput('vercel_until'),
+          users: core.getInput('vercel_users')
         }
 
-        core_default().info(
-          `Retrieving deployment preview for ${vercelOptions.teamId}/${vercelOptions.projectId} ...`
-        )
+        core.info(`Retrieving deployment preview ...`)
         const { url, state } = await getDeploymentUrl(
           vercelToken,
           githubRepo,
@@ -11445,10 +11388,11 @@ require('./sourcemap-register.js')
           vercelOptions
         )
 
-        core_default().setOutput('preview_url', url)
-        core_default().setOutput('deployment_state', state)
+        core.setOutput('preview_url', url)
+        core.setOutput('deployment_state', state)
       } catch (error) {
-        core_default().setFailed(error.message)
+        console.error(error)
+        core.setFailed(error.message)
       }
     }
 

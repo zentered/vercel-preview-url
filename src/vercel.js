@@ -1,34 +1,28 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
-import core from '@actions/core'
+import * as core from '@actions/core'
 import axios from 'axios'
-import querystring from 'querystring'
 
 const apiUrl = 'https://api.vercel.com'
 const deploymentsUrl = '/v6/now/deployments'
 
 export default async function getDeploymentUrl(token, repo, branch, options) {
-  const query = {
-    app: options.app,
-    from: options.from,
-    limit: options.limit,
-    projectId: options.projectId,
-    since: options.since,
-    state: options.state,
-    target: options.target,
-    teamId: options.teamId,
-    to: options.to,
-    until: options.until,
-    users: options.users
-  }
-  const qs = querystring.stringify(query)
-
-  core.info(`Fetching from: ${apiUrl}${deploymentsUrl}?${qs}`)
-  const { data } = await axios.get(`${apiUrl}${deploymentsUrl}?${qs}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
+  let query = new URLSearchParams()
+  Object.keys(options).forEach((key) => {
+    if (options[key] && options[key] !== '') {
+      query.append(key, options[key])
     }
   })
+
+  core.info(`Fetching from: ${apiUrl}${deploymentsUrl}?${query.toString()}`)
+  const { data } = await axios.get(
+    `${apiUrl}${deploymentsUrl}?${query.toString()}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  )
 
   if (!data || !data.deployments || data.deployments.length <= 0) {
     core.error(JSON.stringify(data, null, 2))

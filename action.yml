@@ -8,7 +8,7 @@ inputs:
     required: false
   vercel_team_id:
     description: 'Vercel team id'
-    required: true
+    required: false
   vercel_app:
     description: 'Vercel app name'
     required: false
@@ -27,7 +27,7 @@ inputs:
   vercel_target:
     description: 'Vercel deployment target'
     required: false
-  vercel_to: 
+  vercel_to:
     description: 'Vercel deployment to'
     required: false
   vercel_until:
