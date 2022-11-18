@@ -28,7 +28,7 @@ test('getDeploymentUrl() should return a Vercel build', async () => {
     '123xyz',
     'zentered',
     'fix/huge-bug',
-    'zentered.co'
+    { teamId: 'zentered.co' }
   )
 
   expect(url).toEqual('test-123.vercel.app')
@@ -44,7 +44,9 @@ test('getDeploymentUrl() should fail if there are no deployments', async () => {
   axios.get.mockResolvedValueOnce(data)
 
   await expect(
-    getDeploymentUrl('123xyz', 'zentered', 'fix/huge-bug', 'zentered.co')
+    getDeploymentUrl('123xyz', 'zentered', 'fix/huge-bug', {
+      teamId: 'zentered.co'
+    })
   ).rejects.toThrow()
 })
 
@@ -67,6 +69,8 @@ test('getDeploymentUrl() should fail if there are no matching builds', async () 
   axios.get.mockResolvedValueOnce(data)
 
   await expect(
-    getDeploymentUrl('123xyz', 'zentered', 'fix/huge-bug', 'zentered.co')
+    getDeploymentUrl('123xyz', 'zentered', 'fix/huge-bug', {
+      teamId: 'zentered.co'
+    })
   ).rejects.toThrow()
 })

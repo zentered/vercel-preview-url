@@ -1,5 +1,5 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
-import core from '@actions/core'
+import * as core from '@actions/core'
 import getDeploymentUrl from './vercel.js'
 
 async function run() {
@@ -10,8 +10,8 @@ async function run() {
     const githubBranch = githubRef.replace('refs/heads/', '')
     const githubRepo = githubProject.split('/')[1]
     const vercelOptions = {
-      teamId: core.getInput('vercel_team_id', { required: true }),
-      projectId: core.getInput('vercel_project_id', { required: true }),
+      projectId: core.getInput('vercel_project_id'),
+      teamId: core.getInput('vercel_team_id'),
       app: core.getInput('vercel_app'),
       from: core.getInput('vercel_from'),
       limit: core.getInput('vercel_limit'),
@@ -23,9 +23,7 @@ async function run() {
       users: core.getInput('vercel_users')
     }
 
-    core.info(
-      `Retrieving deployment preview for ${vercelOptions.teamId}/${vercelOptions.projectId} ...`
-    )
+    core.info(`Retrieving deployment preview ...`)
     const { url, state } = await getDeploymentUrl(
       vercelToken,
       githubRepo,
@@ -36,6 +34,7 @@ async function run() {
     core.setOutput('preview_url', url)
     core.setOutput('deployment_state', state)
   } catch (error) {
+    console.error(error)
     core.setFailed(error.message)
   }
 }

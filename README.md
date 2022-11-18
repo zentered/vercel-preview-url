@@ -36,8 +36,7 @@ Instead of an arbitrary time, the [Await for Vercel deployment](https://github.c
   env:
     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   with:
-    vercel_team_id: 'opstrace'
-    vercel_project_id: 'opstrace.com'
+    vercel_project_id: 'prj_XYZ123'
 - name: Get URL
   run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
 ```
@@ -52,7 +51,7 @@ To see more information on inputs, see the [Vercel Documentation](https://vercel
 
 | Name                | Requirement | Type      | Description                  |
 | ------------------- | ----------- | --------- | ---------------------------- |
-| `vercel_team_id`    | required    | string    | Team id                      |
+| `vercel_team_id`    | optional    | string    | Team id                      |
 | `vercel_app`        | optional    | string    | Name of the deployment       |
 | `vercel_from`       | optional    | timestamp | Deployment after this date   |
 | `vercel_project_id` | optional    | string    | Vercel project id            |
