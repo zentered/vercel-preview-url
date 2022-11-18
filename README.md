@@ -22,7 +22,8 @@ The main difference to [Capture Vercel Preview URL](https://github.com/marketpla
 
 ## Usage
 
-[Create a Vercel API Token](https://vercel.com/account/tokens)
+- [Create a Vercel API Token](https://vercel.com/account/tokens)
+- See [Integration Test / Demo](https://github.com/PatrickHeneise/vercel-preview-action-test/blob/main/.github/workflows/integration.yml)
 
 Vercel needs a little time to build the preview, you can check the average build time in your deployments and add the seconds plus a little to a `sleep` action, to wait until the deployment is `READY`.
 
