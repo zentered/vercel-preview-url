@@ -1,0 +1,33 @@
+# Thanks to @coderbyheart
+# https://github.com/NordicSemiconductor/random-words-js/blob/saga/.github/workflows/update-repo-info.yaml
+
+name: Sync repository info from package.json
+
+env:
+  GITHUB_TOKEN: ${{ secrets.UPDATE_REPO_INFO_PAT }}
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+      - '.github/workflows/update-repo-info.yaml'
+  workflow_dispatch:
+
+jobs:
+  update_repo_info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Sync repository description
+        run: gh repo edit --description "`cat package.json | jq -r '.description'`"
+
+      - name: Sync repository topics
+        run: cat package.json | jq '.keywords[]' | xargs -I'{}' gh repo edit
+          --add-topic {}
+
+      - name: Sync homepage
+        run: gh repo edit --homepage "`cat package.json | jq -r '.homepage'`"

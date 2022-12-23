@@ -3,7 +3,7 @@ import * as core from '@actions/core'
 import axios from 'axios'
 
 const apiUrl = 'https://api.vercel.com'
-const deploymentsUrl = '/v6/now/deployments'
+const deploymentsUrl = '/v6/deployments'
 
 export default async function getDeploymentUrl(token, repo, branch, options) {
   let query = new URLSearchParams()

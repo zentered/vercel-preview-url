@@ -2,10 +2,12 @@
   "name": "vercel-preview-url",
   "version": "1.0.0",
   "private": true,
-  "description": "GitHub Action to receive the deployment preview from Vercel",
+  "description": "GitHub Action to receive the deployment preview URL from Vercel",
   "keywords": [
     "vercel",
     "deployment",
+    "vercel-shorturl",
+    "vercel-deployment",
     "github",
     "action"
   ],
@@ -24,9 +26,9 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "prepare": "husky install",
-    "lint": "eslint . --ext .js --ext .md",
     "build": "ncc build src/index.js -o dist --source-map --license licenses.txt",
+    "lint": "eslint . --ext .js --ext .md",
+    "prepare": "husky install",
     "test": "vitest run"
   },
   "commitlint": {
@@ -49,20 +51,20 @@
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "axios": "^1.1.3",
+    "axios": "^1.2.1",
     "is-ci": "^3.0.1"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.2.0",
-    "@vercel/ncc": "^0.34.0",
-    "commitlint": "^17.2.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "@vercel/ncc": "^0.36.0",
+    "commitlint": "^17.3.0",
     "dotenv": "^16.0.3",
-    "eslint": "^8.27.0",
+    "eslint": "^8.30.0",
     "eslint-plugin-markdown": "^3.0.0",
     "eslint-plugin-node": "^11.1.0",
     "husky": "^8.0.2",
-    "prettier": "^2.7.1",
-    "vitest": "^0.25.2"
+    "prettier": "^2.8.1",
+    "vitest": "^0.26.2"
   },
   "engines": {
     "node": ">=16.0.0"
