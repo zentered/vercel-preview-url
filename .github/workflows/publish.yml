@@ -12,8 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm ci
-      - run: npm run lint
-      - run: npm test
-      - run: npm run build
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 'latest'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm test
+      - run: pnpm build
       - run: npx semantic-release

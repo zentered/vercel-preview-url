@@ -32,7 +32,7 @@ Instead of an arbitrary time, the [Await for Vercel deployment](https://github.c
 ```yaml
 - run: sleep 30
 - name: vercel-preview-url
-  uses: zentered/vercel-preview-url@v1.0.0
+  uses: zentered/vercel-preview-url@v1.1.3
   id: vercel_preview_url
   env:
     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -41,6 +41,12 @@ Instead of an arbitrary time, the [Await for Vercel deployment](https://github.c
 - name: Get URL
   run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
 ```
+
+### Vercel Project ID
+
+Your project name is not the same as the project ID. You can find the project ID in the Project Settings, it starts with `prj_`:
+
+![vercel project id](.github/assets/projectid.png)
 
 ## Environment Variables / Secret
 
