@@ -1,6 +1,5 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 import * as core from '@actions/core'
-import axios from 'axios'
 
 const apiUrl = 'https://api.vercel.com'
 const deploymentsUrl = '/v6/deployments'
@@ -14,15 +13,14 @@ export default async function getDeploymentUrl(token, repo, branch, options) {
   })
 
   core.info(`Fetching from: ${apiUrl}${deploymentsUrl}?${query.toString()}`)
-  const { data } = await axios.get(
-    `${apiUrl}${deploymentsUrl}?${query.toString()}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
+  const res = await fetch(`${apiUrl}${deploymentsUrl}?${query.toString()}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     }
-  )
+  })
+
+  const data = await res.json()
 
   if (!data || !data.deployments || data.deployments.length <= 0) {
     core.error(JSON.stringify(data, null, 2))
