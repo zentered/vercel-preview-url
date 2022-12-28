@@ -51,7 +51,8 @@
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "is-ci": "^3.0.1"
+    "is-ci": "^3.0.1",
+    "node-fetch": "^3.3.0"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.3.0",

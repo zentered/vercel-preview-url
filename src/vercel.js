@@ -1,5 +1,6 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 import * as core from '@actions/core'
+import fetch from 'node-fetch'
 
 const apiUrl = 'https://api.vercel.com'
 const deploymentsUrl = '/v6/deployments'
@@ -19,7 +20,6 @@ export default async function getDeploymentUrl(token, repo, branch, options) {
       'Content-Type': 'application/json'
     }
   })
-
   const data = await res.json()
 
   if (!data || !data.deployments || data.deployments.length <= 0) {

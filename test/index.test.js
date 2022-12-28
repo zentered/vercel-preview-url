@@ -1,9 +1,10 @@
 /* eslint-disable node/no-unpublished-import */
 /* eslint-disable node/no-unsupported-features/es-syntax */
 import { vi, test, expect } from 'vitest'
+import fetch from 'node-fetch'
 import getDeploymentUrl from '../src/vercel.js'
 
-global.fetch = vi.fn()
+vi.mock('node-fetch')
 
 function createFetchResponse(data) {
   return { json: () => new Promise((resolve) => resolve(data)) }
