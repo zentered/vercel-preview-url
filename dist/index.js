@@ -11756,7 +11756,7 @@ var __webpack_exports__ = {}
       )
     })
 
-    core.info(`Found ${builds.length} matching builds`)
+    core.info(`Found ${builds.length} matching deployments`)
     if (!builds || builds.length <= 0) {
       core.error(JSON.stringify(builds, null, 2))
       throw new Error(
@@ -11776,7 +11776,7 @@ var __webpack_exports__ = {}
 
   async function run() {
     try {
-      const githubRef = process.env.GITHUB_REF
+      const githubRef = process.env.GITHUB_HEAD_REF
       const githubProject = process.env.GITHUB_REPOSITORY
       const githubBranch = githubRef.replace('refs/heads/', '')
       const githubRepo = githubProject.split('/')[1]
