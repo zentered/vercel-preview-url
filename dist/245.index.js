@@ -1,7 +1,6 @@
-'use strict'
-exports.id = 245
-exports.ids = [245]
-exports.modules = {
+export const id = 245
+export const ids = [245]
+export const modules = {
   /***/ 9245: /***/ (
     __unused_webpack___webpack_module__,
     __webpack_exports__,
@@ -468,4 +467,5 @@ exports.modules = {
     /***/
   }
 }
+
 //# sourceMappingURL=245.index.js.map

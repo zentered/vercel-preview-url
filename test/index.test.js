@@ -26,12 +26,9 @@ test('getDeploymentUrl() should return a Vercel build', async () => {
   }
   fetch.mockResolvedValueOnce(createFetchResponse(data))
 
-  const { url, state } = await getDeploymentUrl(
-    '123xyz',
-    'zentered',
-    'fix/huge-bug',
-    { teamId: 'zentered.co' }
-  )
+  const { url, state } = await getDeploymentUrl('zentered', 'fix/huge-bug', {
+    teamId: 'zentered.co'
+  })
   expect(fetch).toBeCalledTimes(1)
   expect(url).toEqual('test-123.vercel.app')
   expect(state).toEqual('READY')
@@ -53,7 +50,7 @@ test('getDeploymentUrl() should return vercel builds for a project', async () =>
   }
   fetch.mockResolvedValueOnce(createFetchResponse(data))
 
-  await getDeploymentUrl('123xyz', 'zentered', 'fix/huge-bug', {
+  await getDeploymentUrl('zentered', 'fix/huge-bug', {
     teamId: 'zentered.co',
     vercel_project_id: 'prj_zentered1'
   })
@@ -76,7 +73,7 @@ test('getDeploymentUrl() should fail if there are no deployments', async () => {
   fetch.mockResolvedValueOnce(createFetchResponse(data))
 
   await expect(
-    getDeploymentUrl('123xyz', 'zentered', 'fix/huge-bug', {
+    getDeploymentUrl('zentered', 'fix/huge-bug', {
       teamId: 'zentered.co'
     })
   ).rejects.toThrow()
@@ -99,7 +96,7 @@ test('getDeploymentUrl() should fail if there are no matching builds', async () 
   fetch.mockResolvedValueOnce(createFetchResponse(data))
 
   await expect(
-    getDeploymentUrl('123xyz', 'zentered', 'fix/huge-bug', {
+    getDeploymentUrl('zentered', 'fix/huge-bug', {
       teamId: 'zentered.co'
     })
   ).rejects.toThrow()

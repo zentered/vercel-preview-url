@@ -4,8 +4,9 @@ import fetch from 'node-fetch'
 
 const apiUrl = 'https://api.vercel.com'
 const deploymentsUrl = '/v6/deployments'
+const vercelToken = process.env.VERCEL_TOKEN
 
-export default async function getDeploymentUrl(token, repo, branch, options) {
+export default async function getDeploymentUrl(repo, branch, options) {
   let query = new URLSearchParams()
   Object.keys(options).forEach((key) => {
     if (options[key] && options[key] !== '') {
@@ -16,7 +17,7 @@ export default async function getDeploymentUrl(token, repo, branch, options) {
   core.info(`Fetching from: ${apiUrl}${deploymentsUrl}?${query.toString()}`)
   const res = await fetch(`${apiUrl}${deploymentsUrl}?${query.toString()}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${vercelToken}`,
       'Content-Type': 'application/json'
     }
   })

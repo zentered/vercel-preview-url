@@ -1,6 +1,7 @@
 # Vercel Preview URL
 
 ![Test](https://github.com/zentered/vercel-preview-url/workflows/Test/badge.svg)
+[![Integration Test](https://github.com/PatrickHeneise/vercel-preview-action-test/actions/workflows/integration.yml/badge.svg)](https://github.com/PatrickHeneise/vercel-preview-action-test/actions/workflows/integration.yml)
 ![Release](https://github.com/zentered/vercel-preview-url/workflows/Publish/badge.svg)
 [![semantic-release: conventional](https://img.shields.io/badge/semantic--release-conventional-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)

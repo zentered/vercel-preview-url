@@ -11,6 +11,7 @@
     "github",
     "action"
   ],
+  "type": "module",
   "homepage": "https://github.com/zentered/vercel-preview-url#readme",
   "bugs": {
     "url": "https://github.com/zentered/vercel-preview-url/issues"
@@ -29,7 +30,7 @@
     "build": "ncc build src/index.js -o dist --source-map --license licenses.txt",
     "lint": "eslint . --ext .js --ext .md",
     "prepare": "husky install",
-    "test": "vitest run"
+    "test": "VERCEL_TOKEN=123xyz vitest run"
   },
   "commitlint": {
     "extends": [
