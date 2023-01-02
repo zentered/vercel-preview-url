@@ -28,8 +28,8 @@ export default async function getDeploymentUrl(repo, branch, options) {
     throw new Error('no deployments found')
   }
 
-  core.debug(`Found ${data.deployments.length} deployments`)
-  core.debug(`Looking for matching deployments ${repo}/${branch}`)
+  core.info(`Found ${data.deployments.length} deployments`)
+  core.info(`Looking for matching deployments ${repo}/${branch}`)
   const builds = data.deployments.filter((deployment) => {
     return (
       deployment.meta.githubCommitRepo === repo &&
@@ -37,10 +37,10 @@ export default async function getDeploymentUrl(repo, branch, options) {
     )
   })
 
-  core.debug(`Found ${builds.length} matching builds`)
+  core.info(`Found ${builds.length} matching deployments`)
   if (!builds || builds.length <= 0) {
     core.error(JSON.stringify(builds, null, 2))
-    throw new Error('no deployments found')
+    throw new Error('no matching deployments found, please check your filters')
   }
 
   const build = builds[0]
