@@ -4,7 +4,6 @@ import getDeploymentUrl from './vercel.js'
 
 async function run() {
   try {
-    const vercelToken = process.env.VERCEL_TOKEN
     const githubRef = process.env.GITHUB_REF
     const githubProject = process.env.GITHUB_REPOSITORY
     const githubBranch = githubRef.replace('refs/heads/', '')
@@ -25,7 +24,6 @@ async function run() {
 
     core.info(`Retrieving deployment preview ...`)
     const { url, state } = await getDeploymentUrl(
-      vercelToken,
       githubRepo,
       githubBranch,
       vercelOptions
