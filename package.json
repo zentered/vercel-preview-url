@@ -53,19 +53,19 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "is-ci": "^3.0.1",
-    "node-fetch": "^3.3.0"
+    "node-fetch": "^3.3.1"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.3.0",
-    "@vercel/ncc": "^0.36.0",
-    "commitlint": "^17.3.0",
+    "@commitlint/config-conventional": "^17.6.1",
+    "@vercel/ncc": "^0.36.1",
+    "commitlint": "^17.6.1",
     "dotenv": "^16.0.3",
-    "eslint": "^8.30.0",
+    "eslint": "^8.39.0",
     "eslint-plugin-markdown": "^3.0.0",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^8.0.2",
-    "prettier": "^2.8.1",
-    "vitest": "^0.26.2"
+    "husky": "^8.0.3",
+    "prettier": "^2.8.8",
+    "vitest": "^0.30.1"
   },
   "engines": {
     "node": ">=16.0.0"
