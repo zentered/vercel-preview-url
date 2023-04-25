@@ -33,7 +33,7 @@ Instead of an arbitrary time, the [Await for Vercel deployment](https://github.c
 ```yaml
 - run: sleep 30
 - name: vercel-preview-url
-  uses: zentered/vercel-preview-url@v1.1.3
+  uses: zentered/vercel-preview-url@v1.1.9
   id: vercel_preview_url
   env:
     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
