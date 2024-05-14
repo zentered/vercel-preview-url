@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import * as core from '@actions/core'
 import getDeploymentUrl from './vercel.js'
 
