@@ -44,4 +44,4 @@ outputs:
     description: "A string with the unique URL of the deployment. If it hasn't finished uploading (is incomplete), the value will be null."
 runs:
   main: dist/index.js
-  using: node16
+  using: node20
