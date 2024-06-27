@@ -46,6 +46,7 @@ export default async function getDeploymentUrl(repo, branch, options) {
   core.info(`Preview URL: https://${build.url} (${build.state})`)
   return {
     url: build.url,
-    state: build.state
+    state: build.state,
+    branchAlias: build.meta.branchAlias
   }
 }
