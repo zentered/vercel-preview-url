@@ -35626,7 +35626,7 @@ ${pendingInterceptorsFormatter.format(pending)}
           _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(
             `Retrieving deployment preview for ${githubRepo}/${githubBranch}`
           )
-          const { url, state } = await (0,
+          const { url, state, branchAlias } = await (0,
           _vercel_js__WEBPACK_IMPORTED_MODULE_1__ /* ["default"] */.Z)(
             githubRepo,
             githubBranch,
@@ -35640,6 +35640,10 @@ ${pendingInterceptorsFormatter.format(pending)}
           _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput(
             'deployment_state',
             state
+          )
+          _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput(
+            'branch_alias',
+            branchAlias
           )
 
           __webpack_async_result__()
@@ -38024,7 +38028,8 @@ ${pendingInterceptorsFormatter.format(pending)}
       core.info(`Preview URL: https://${build.url} (${build.state})`)
       return {
         url: build.url,
-        state: build.state
+        state: build.state,
+        branchAlias: build.meta.branchAlias
       }
     }
 
@@ -38079,8 +38084,7 @@ ${pendingInterceptorsFormatter.format(pending)}
 /******/
 /************************************************************************/
 /******/ /* webpack/runtime/async module */
-/******/
-;(() => {
+/******/ ;(() => {
   /******/ var webpackQueues =
     typeof Symbol === 'function'
       ? Symbol('webpack queues')
@@ -38185,8 +38189,7 @@ ${pendingInterceptorsFormatter.format(pending)}
 })()
 /******/
 /******/ /* webpack/runtime/define property getters */
-/******/
-;(() => {
+/******/ ;(() => {
   /******/ // define getter functions for harmony exports
   /******/ __nccwpck_require__.d = (exports, definition) => {
     /******/ for (var key in definition) {
@@ -38208,8 +38211,7 @@ ${pendingInterceptorsFormatter.format(pending)}
 })()
 /******/
 /******/ /* webpack/runtime/ensure chunk */
-/******/
-;(() => {
+/******/ ;(() => {
   /******/ __nccwpck_require__.f = {}
   /******/ // This file contains only the entry chunk.
   /******/ // The chunk loading function for additional chunks
@@ -38227,8 +38229,7 @@ ${pendingInterceptorsFormatter.format(pending)}
 })()
 /******/
 /******/ /* webpack/runtime/get javascript chunk filename */
-/******/
-;(() => {
+/******/ ;(() => {
   /******/ // This function allow to reference async chunks
   /******/ __nccwpck_require__.u = (chunkId) => {
     /******/ // return url for filenames based on template
@@ -38239,16 +38240,14 @@ ${pendingInterceptorsFormatter.format(pending)}
 })()
 /******/
 /******/ /* webpack/runtime/hasOwnProperty shorthand */
-/******/
-;(() => {
+/******/ ;(() => {
   /******/ __nccwpck_require__.o = (obj, prop) =>
     Object.prototype.hasOwnProperty.call(obj, prop)
   /******/
 })()
 /******/
 /******/ /* webpack/runtime/make namespace object */
-/******/
-;(() => {
+/******/ ;(() => {
   /******/ // define __esModule on exports
   /******/ __nccwpck_require__.r = (exports) => {
     /******/ if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
@@ -38271,10 +38270,9 @@ ${pendingInterceptorsFormatter.format(pending)}
       import.meta.url.match(/^file:\/\/\/\w:/) ? 1 : 0,
       -1
     ) + '/'
-  /******/
-  /******/ /* webpack/runtime/import chunk loading */
-  /******/
-;(() => {
+/******/
+/******/ /* webpack/runtime/import chunk loading */
+/******/ ;(() => {
   /******/ // no baseURI
   /******/
   /******/ // object to store loaded and loading chunks
