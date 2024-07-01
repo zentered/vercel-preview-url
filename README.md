@@ -72,10 +72,11 @@ To see more information on inputs, see the [Vercel Documentation](https://vercel
 
 ## Outputs
 
-| Name               | Description                                                                                                             |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| `preview_url`      | A string with the unique URL of the deployment. If it hasn't finished uploading (is incomplete), the value will be null |
-| `deployment_state` | A string with the current deployment state, it could be one of the following QUEUED, BUILDING, READY, or ERROR.         |
+| Name               | Description                                                                                                                      |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------|
+| `preview_url`      | A string with the unique URL of the deployment. If it hasn't finished uploading (is incomplete), the value will be null          |
+| `deployment_state` | A string with the current deployment state, it could be one of the following QUEUED, BUILDING, READY, or ERROR.                  |
+| `branch_alias`     | A string with the [branch alias](https://vercel.com/docs/cli/alias), that is a custom domain that Vercel creates for that branch.|
 
 ## Contributing
 
