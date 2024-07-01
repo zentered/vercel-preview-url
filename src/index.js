@@ -23,7 +23,7 @@ const vercelOptions = {
 }
 
 core.info(`Retrieving deployment preview for ${githubRepo}/${githubBranch}`)
-const { url, state } = await getDeploymentUrl(
+const { url, state, branchAlias } = await getDeploymentUrl(
   githubRepo,
   githubBranch,
   vercelOptions
@@ -31,3 +31,4 @@ const { url, state } = await getDeploymentUrl(
 
 core.setOutput('preview_url', url)
 core.setOutput('deployment_state', state)
+core.setOutput('branch_alias', branchAlias)
