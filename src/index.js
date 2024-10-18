@@ -1,11 +1,14 @@
 import * as core from '@actions/core'
 import getDeploymentUrl from './vercel.js'
 
-const githubBranch =
+const searchBranchName = process.env.SEARCH_BRANCH_NAME || ''
+const defaultGithubBranch =
   process.env.GITHUB_EVENT_NAME === 'pull_request' ||
   process.env.GITHUB_EVENT_NAME === 'pull_request_target'
     ? process.env.GITHUB_HEAD_REF
     : process.env.GITHUB_REF.replace('refs/heads/', '')
+const githubBranch =
+  searchBranchName.length > 0 ? searchBranchName : defaultGithubBranch
 const githubProject = process.env.GITHUB_REPOSITORY
 const githubRepo = githubProject.split('/')[1]
 const vercelOptions = {
