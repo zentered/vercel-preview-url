@@ -15,6 +15,7 @@ The main difference to [Capture Vercel Preview URL](https://github.com/marketpla
 - [Vercel Preview URL](#vercel-preview-url)
   - [Table of Contents](#table-of-contents)
   - [Usage](#usage)
+    - [Vercel Project ID](#vercel-project-id)
   - [Environment Variables / Secret](#environment-variables--secret)
   - [Inputs](#inputs)
   - [Outputs](#outputs)
@@ -53,6 +54,9 @@ Your project name is not the same as the project ID. You can find the project ID
 
 In the repository, go to "Settings", then "Secrets" and add "VERCEL_TOKEN", the value you can retrieve on your [Vercel account](https://vercel.com/account/tokens).
 
+By optionally setting `SEARCH_BRANCH_NAME` as an environment variable, you can override the branch name used to search for deployments in Vercel.
+This environment variable is useful in cases where GITHUB_REF becomes the default branch, such as when commenting on pull requests or adding labels.
+
 ## Inputs
 
 To see more information on inputs, see the [Vercel Documentation](https://vercel.com/docs/rest-api#endpoints/deployments/list-deployments).
@@ -72,11 +76,11 @@ To see more information on inputs, see the [Vercel Documentation](https://vercel
 
 ## Outputs
 
-| Name               | Description                                                                                                                      |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------|
-| `preview_url`      | A string with the unique URL of the deployment. If it hasn't finished uploading (is incomplete), the value will be null          |
-| `deployment_state` | A string with the current deployment state, it could be one of the following QUEUED, BUILDING, READY, or ERROR.                  |
-| `branch_alias`     | A string with the [branch alias](https://vercel.com/docs/cli/alias), that is a custom domain that Vercel creates for that branch.|
+| Name               | Description                                                                                                                       |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `preview_url`      | A string with the unique URL of the deployment. If it hasn't finished uploading (is incomplete), the value will be null           |
+| `deployment_state` | A string with the current deployment state, it could be one of the following QUEUED, BUILDING, READY, or ERROR.                   |
+| `branch_alias`     | A string with the [branch alias](https://vercel.com/docs/cli/alias), that is a custom domain that Vercel creates for that branch. |
 
 ## Contributing
 
