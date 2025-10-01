@@ -40,6 +40,7 @@ Instead of an arbitrary time, the [Await for Vercel deployment](https://github.c
     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   with:
     vercel_project_id: 'prj_XYZ123'
+    vercel_team_id: 'your-team-id' # Required for team/organization projects
 - name: Get URL
   run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
 ```
@@ -57,22 +58,60 @@ In the repository, go to "Settings", then "Secrets" and add "VERCEL_TOKEN", the 
 By optionally setting `SEARCH_BRANCH_NAME` as an environment variable, you can override the branch name used to search for deployments in Vercel.
 This environment variable is useful in cases where GITHUB_REF becomes the default branch, such as when commenting on pull requests or adding labels.
 
+## Authentication & Scope Issues
+
+If you encounter a **403 Forbidden** error with a message like:
+
+```
+"Not authorized: Trying to access resource under scope \"your-username-projects\".
+You must re-authenticate to this scope or use a token with access to this scope."
+```
+
+This indicates that your Vercel token is trying to access a project under the wrong scope. This commonly happens when:
+
+1. **Your project belongs to a Vercel team/organization** but you're not specifying the `vercel_team_id`
+2. **Vercel API defaults to your personal scope** when no team ID is provided
+
+### Solution
+
+Always provide the `vercel_team_id` input when your project belongs to a team or organization:
+
+```yaml
+- name: vercel-preview-url
+  uses: zentered/vercel-preview-url@v1.4.0
+  id: vercel_preview_url
+  env:
+    VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  with:
+    vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+    vercel_team_id: ${{ secrets.VERCEL_TEAM_ID }} # Add this line
+```
+
+**How to find your team ID:**
+
+1. Go to your [Vercel Dashboard](https://vercel.com/dashboard)
+2. Select your team/organization from the dropdown
+3. The team ID will be visible in the URL: `https://vercel.com/[TEAM_ID]/...`
+4. Or check your project settings where the team ID is displayed
+
+Even if your `vercel_project_id` is correct, without the proper `vercel_team_id`, the API will try to access the project under your personal scope instead of the team scope, resulting in the 403 error.
+
 ## Inputs
 
 To see more information on inputs, see the [Vercel Documentation](https://vercel.com/docs/rest-api#endpoints/deployments/list-deployments).
 
-| Name                | Requirement | Type      | Description                  |
-| ------------------- | ----------- | --------- | ---------------------------- |
-| `vercel_team_id`    | optional    | string    | Team id                      |
-| `vercel_app`        | optional    | string    | Name of the deployment       |
-| `vercel_from`       | optional    | timestamp | Deployment after this date   |
-| `vercel_project_id` | optional    | string    | Vercel project id            |
-| `vercel_since`      | optional    | timestamp | Deployment since this date   |
-| `vercel_state`      | optional    | string    | Filter on state              |
-| `vercel_target`     | optional    | string    | Deployment environment       |
-| `vercel_to`         | optional    | timestamp | Deployment before this date  |
-| `vercel_until`      | optional    | timestamp | Deployment before this date  |
-| `vercel_users`      | optional    | string    | Filter on created by user(s) |
+| Name                | Requirement                    | Type      | Description                                                    |
+| ------------------- | ------------------------------ | --------- | -------------------------------------------------------------- |
+| `vercel_team_id`    | **required for team projects** | string    | Team id (required when project belongs to a team/organization) |
+| `vercel_app`        | optional                       | string    | Name of the deployment                                         |
+| `vercel_from`       | optional                       | timestamp | Deployment after this date                                     |
+| `vercel_project_id` | optional                       | string    | Vercel project id                                              |
+| `vercel_since`      | optional                       | timestamp | Deployment since this date                                     |
+| `vercel_state`      | optional                       | string    | Filter on state                                                |
+| `vercel_target`     | optional                       | string    | Deployment environment                                         |
+| `vercel_to`         | optional                       | timestamp | Deployment before this date                                    |
+| `vercel_until`      | optional                       | timestamp | Deployment before this date                                    |
+| `vercel_users`      | optional                       | string    | Filter on created by user(s)                                   |
 
 ## Outputs
 
