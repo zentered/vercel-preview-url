@@ -1,5 +1,3 @@
-/* eslint-disable node/no-unpublished-import */
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import { vi, test, expect } from 'vitest'
 import fetch from 'node-fetch'
 import getDeploymentUrl from '../src/vercel.js'

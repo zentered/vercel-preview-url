@@ -28,7 +28,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build src/index.js -o dist --source-map --license licenses.txt",
-    "lint": "eslint . --ext .js --ext .md",
+    "lint": "eslint .",
     "prepare": "husky install",
     "test": "VERCEL_TOKEN=123xyz vitest run"
   },
@@ -68,6 +68,6 @@
     "vitest": "^4.1.12"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=24"
   }
 }

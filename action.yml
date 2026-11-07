@@ -38,10 +38,12 @@ inputs:
     required: false
 name: Vercel Preview URL
 outputs:
+  branch_alias:
+    description: 'A string with the branch alias, a custom domain that Vercel creates for that branch.'
   deployment_state:
     description: 'A string with the current deployment state, it could be one of the following QUEUED, BUILDING, READY, or ERROR.'
   preview_url:
     description: "A string with the unique URL of the deployment. If it hasn't finished uploading (is incomplete), the value will be null."
 runs:
   main: dist/index.js
-  using: node20
+  using: node24
