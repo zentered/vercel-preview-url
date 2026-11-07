@@ -38,6 +38,8 @@ inputs:
     required: false
 name: Vercel Preview URL
 outputs:
+  branch_alias:
+    description: 'A string with the branch alias, a custom domain that Vercel creates for that branch.'
   deployment_state:
     description: 'A string with the current deployment state, it could be one of the following QUEUED, BUILDING, READY, or ERROR.'
   preview_url:
