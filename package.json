@@ -28,7 +28,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build src/index.js -o dist --source-map --license licenses.txt",
-    "lint": "eslint . --ext .js --ext .md",
+    "lint": "eslint .",
     "prepare": "husky install",
     "test": "VERCEL_TOKEN=123xyz vitest run"
   },
