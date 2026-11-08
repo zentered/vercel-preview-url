@@ -51,6 +51,10 @@ Your project name is not the same as the project ID. You can find the project ID
 
 ![vercel project id](.github/assets/projectid.png)
 
+### Vercel Limit
+
+`vercel_limit` is the page size of each request to the Vercel API, not a cap on the total. The action reads further pages until it finds a matching deployment. It scans at most 10 pages. Raise `vercel_limit` if your project has more deployments for the branch than that.
+
 ## Environment Variables / Secret
 
 In the repository, go to "Settings", then "Secrets" and add "VERCEL_TOKEN", the value you can retrieve on your [Vercel account](https://vercel.com/account/tokens).

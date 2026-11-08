@@ -198,3 +198,40 @@ test('getDeploymentUrl() should report the status when the error body is not JSO
     getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
   ).rejects.toThrow(/502/)
 })
+
+test('getDeploymentUrl() should throw the API error when a later page fails', async () => {
+  fetch.mockResolvedValueOnce(
+    createFetchResponse({
+      deployments: [deployment('other-1.vercel.app', 'main')],
+      pagination: { count: 1, next: 1700000000000, prev: null }
+    })
+  )
+  fetch.mockResolvedValueOnce(
+    createFetchResponse(
+      { error: { code: 'rate_limited', message: 'Too many requests' } },
+      { ok: false, status: 429 }
+    )
+  )
+
+  await expect(
+    getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
+  ).rejects.toThrow(/429.*Too many requests/)
+  expect(fetch).toBeCalledTimes(2)
+})
+
+test('getDeploymentUrl() should skip deployments without meta', async () => {
+  fetch.mockResolvedValueOnce(
+    createFetchResponse({
+      deployments: [
+        { name: 'cli-deploy', url: 'cli-1.vercel.app', state: 'READY' },
+        deployment('match-2.vercel.app', 'fix/huge-bug')
+      ],
+      pagination: { count: 2, next: null, prev: null }
+    })
+  )
+
+  const { url } = await getDeploymentUrl('zentered', 'fix/huge-bug', {
+    teamId: 'zentered.co'
+  })
+  expect(url).toEqual('match-2.vercel.app')
+})

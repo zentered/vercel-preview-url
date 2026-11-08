@@ -39191,8 +39191,8 @@ ${pendingInterceptorsFormatter.format(pending)}
         core.info(`Looking for matching deployments ${repo}/${branch}`)
         build = data.deployments.find((deployment) => {
           return (
-            deployment.meta.githubCommitRepo === repo &&
-            deployment.meta.githubCommitRef === branch
+            deployment.meta?.githubCommitRepo === repo &&
+            deployment.meta?.githubCommitRef === branch
           )
         })
         if (build) break
