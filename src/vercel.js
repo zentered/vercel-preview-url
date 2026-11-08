@@ -20,6 +20,20 @@ export default async function getDeploymentUrl(repo, branch, options) {
       'Content-Type': 'application/json'
     }
   })
+
+  if (!res.ok) {
+    let detail = res.statusText || 'request failed'
+    try {
+      const body = await res.json()
+      if (body && body.error && body.error.message) {
+        detail = body.error.message
+      }
+    } catch {
+      // non-JSON error body, keep the status text
+    }
+    throw new Error(`Vercel API error ${res.status}: ${detail}`)
+  }
+
   const data = await res.json()
 
   if (!data || !data.deployments || data.deployments.length <= 0) {
