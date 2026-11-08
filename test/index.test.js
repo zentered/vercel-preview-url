@@ -8,8 +8,12 @@ beforeEach(() => {
   fetch.mockReset()
 })
 
-function createFetchResponse(data) {
-  return { json: () => new Promise((resolve) => resolve(data)) }
+function createFetchResponse(data, { ok = true, status = 200 } = {}) {
+  return {
+    ok,
+    status,
+    json: () => new Promise((resolve) => resolve(data))
+  }
 }
 
 test('getDeploymentUrl() should return a Vercel build', async () => {
@@ -163,4 +167,34 @@ test('getDeploymentUrl() should stop after 10 pages', async () => {
     getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
   ).rejects.toThrow('no matching deployments found')
   expect(fetch).toBeCalledTimes(10)
+})
+
+test('getDeploymentUrl() should report the Vercel error message on a 403', async () => {
+  const data = {
+    error: {
+      code: 'forbidden',
+      message:
+        'Not authorized: Trying to access resource under scope "zentered". You must re-authenticate to this scope or use a token with access to this scope.'
+    }
+  }
+  fetch.mockResolvedValueOnce(
+    createFetchResponse(data, { ok: false, status: 403 })
+  )
+
+  await expect(
+    getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
+  ).rejects.toThrow(/403.*Not authorized: Trying to access resource/)
+})
+
+test('getDeploymentUrl() should report the status when the error body is not JSON', async () => {
+  fetch.mockResolvedValueOnce({
+    ok: false,
+    status: 502,
+    statusText: 'Bad Gateway',
+    json: () => Promise.reject(new SyntaxError('Unexpected token < in JSON'))
+  })
+
+  await expect(
+    getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
+  ).rejects.toThrow(/502/)
 })

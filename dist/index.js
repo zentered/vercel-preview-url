@@ -39139,6 +39139,19 @@ ${pendingInterceptorsFormatter.format(pending)}
     const maxPages = 10
     const vercelToken = process.env.VERCEL_TOKEN
 
+    async function apiError(res) {
+      let detail = res.statusText || 'request failed'
+      try {
+        const body = await res.json()
+        if (body && body.error && body.error.message) {
+          detail = body.error.message
+        }
+      } catch {
+        // non-JSON error body, keep the status text
+      }
+      return new Error(`Vercel API error ${res.status}: ${detail}`)
+    }
+
     async function getDeploymentUrl(repo, branch, options) {
       let query = new URLSearchParams()
       Object.keys(options).forEach((key) => {
@@ -39159,6 +39172,11 @@ ${pendingInterceptorsFormatter.format(pending)}
             'Content-Type': 'application/json'
           }
         })
+
+        if (!res.ok) {
+          throw await apiError(res)
+        }
+
         const data = await res.json()
 
         if (!data || !data.deployments || data.deployments.length <= 0) {
