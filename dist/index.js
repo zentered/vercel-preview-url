@@ -39135,8 +39135,22 @@ ${pendingInterceptorsFormatter.format(pending)}
     } // CONCATENATED MODULE: ./src/vercel.js
 
     const apiUrl = 'https://api.vercel.com'
-    const deploymentsUrl = '/v6/deployments'
+    const deploymentsUrl = '/v7/deployments'
+    const maxPages = 10
     const vercelToken = process.env.VERCEL_TOKEN
+
+    async function apiError(res) {
+      let detail = res.statusText || 'request failed'
+      try {
+        const body = await res.json()
+        if (body && body.error && body.error.message) {
+          detail = body.error.message
+        }
+      } catch {
+        // non-JSON error body, keep the status text
+      }
+      return new Error(`Vercel API error ${res.status}: ${detail}`)
+    }
 
     async function getDeploymentUrl(repo, branch, options) {
       let query = new URLSearchParams()
@@ -39146,55 +39160,54 @@ ${pendingInterceptorsFormatter.format(pending)}
         }
       })
 
-      core.info(`Fetching from: ${apiUrl}${deploymentsUrl}?${query.toString()}`)
-      const res = await fetch(
-        `${apiUrl}${deploymentsUrl}?${query.toString()}`,
-        {
+      query.set('branch', branch)
+
+      let build
+      for (let page = 1; page <= maxPages; page++) {
+        const url = `${apiUrl}${deploymentsUrl}?${query.toString()}`
+        core.info(`Fetching from: ${url}`)
+        const res = await fetch(url, {
           headers: {
             Authorization: `Bearer ${vercelToken}`,
             'Content-Type': 'application/json'
           }
-        }
-      )
+        })
 
-      if (!res.ok) {
-        let detail = res.statusText || 'request failed'
-        try {
-          const body = await res.json()
-          if (body && body.error && body.error.message) {
-            detail = body.error.message
+        if (!res.ok) {
+          throw await apiError(res)
+        }
+
+        const data = await res.json()
+
+        if (!data || !data.deployments || data.deployments.length <= 0) {
+          if (page === 1) {
+            core.error(JSON.stringify(data, null, 2))
+            throw new Error('no deployments found')
           }
-        } catch {
-          // non-JSON error body, keep the status text
+          break
         }
-        throw new Error(`Vercel API error ${res.status}: ${detail}`)
+
+        core.info(`Found ${data.deployments.length} deployments`)
+        core.info(`Looking for matching deployments ${repo}/${branch}`)
+        build = data.deployments.find((deployment) => {
+          return (
+            deployment.meta?.githubCommitRepo === repo &&
+            deployment.meta?.githubCommitRef === branch
+          )
+        })
+        if (build) break
+
+        const next = data.pagination && data.pagination.next
+        if (!next) break
+        query.set('until', next)
       }
 
-      const data = await res.json()
-
-      if (!data || !data.deployments || data.deployments.length <= 0) {
-        core.error(JSON.stringify(data, null, 2))
-        throw new Error('no deployments found')
-      }
-
-      core.info(`Found ${data.deployments.length} deployments`)
-      core.info(`Looking for matching deployments ${repo}/${branch}`)
-      const builds = data.deployments.filter((deployment) => {
-        return (
-          deployment.meta.githubCommitRepo === repo &&
-          deployment.meta.githubCommitRef === branch
-        )
-      })
-
-      core.info(`Found ${builds.length} matching deployments`)
-      if (!builds || builds.length <= 0) {
-        core.error(JSON.stringify(builds, null, 2))
+      if (!build) {
         throw new Error(
           'no matching deployments found, please check your filters'
         )
       }
 
-      const build = builds[0]
       core.info(`Preview URL: https://${build.url} (${build.state})`)
       return {
         url: build.url,

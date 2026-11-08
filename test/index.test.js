@@ -1,8 +1,12 @@
-import { vi, test, expect } from 'vitest'
+import { vi, test, expect, beforeEach } from 'vitest'
 import fetch from 'node-fetch'
 import getDeploymentUrl from '../src/vercel.js'
 
 vi.mock('node-fetch')
+
+beforeEach(() => {
+  fetch.mockReset()
+})
 
 function createFetchResponse(data, { ok = true, status = 200 } = {}) {
   return {
@@ -56,9 +60,9 @@ test('getDeploymentUrl() should return vercel builds for a project', async () =>
     teamId: 'zentered.co',
     vercel_project_id: 'prj_zentered1'
   })
-  expect(fetch).toBeCalledTimes(2)
+  expect(fetch).toBeCalledTimes(1)
   expect(fetch).lastCalledWith(
-    'https://api.vercel.com/v6/deployments?teamId=zentered.co&vercel_project_id=prj_zentered1',
+    'https://api.vercel.com/v7/deployments?teamId=zentered.co&vercel_project_id=prj_zentered1&branch=fix%2Fhuge-bug',
     {
       headers: {
         Authorization: 'Bearer 123xyz',
@@ -104,6 +108,67 @@ test('getDeploymentUrl() should fail if there are no matching builds', async () 
   ).rejects.toThrow()
 })
 
+function deployment(url, ref, repo = 'zentered') {
+  return {
+    name: 'zentered-co',
+    url,
+    state: 'READY',
+    meta: { githubCommitRef: ref, githubCommitRepo: repo }
+  }
+}
+
+test('getDeploymentUrl() should follow pagination.next until it finds a match', async () => {
+  fetch.mockResolvedValueOnce(
+    createFetchResponse({
+      deployments: [deployment('other-1.vercel.app', 'main')],
+      pagination: { count: 1, next: 1700000000000, prev: null }
+    })
+  )
+  fetch.mockResolvedValueOnce(
+    createFetchResponse({
+      deployments: [deployment('match-2.vercel.app', 'fix/huge-bug')],
+      pagination: { count: 1, next: 1690000000000, prev: 1700000000000 }
+    })
+  )
+
+  const { url } = await getDeploymentUrl('zentered', 'fix/huge-bug', {
+    teamId: 'zentered.co'
+  })
+  expect(url).toEqual('match-2.vercel.app')
+  expect(fetch).toBeCalledTimes(2)
+  expect(fetch.mock.calls[1][0]).toEqual(
+    'https://api.vercel.com/v7/deployments?teamId=zentered.co&branch=fix%2Fhuge-bug&until=1700000000000'
+  )
+})
+
+test('getDeploymentUrl() should stop when pagination.next is null', async () => {
+  fetch.mockResolvedValueOnce(
+    createFetchResponse({
+      deployments: [deployment('other-1.vercel.app', 'main')],
+      pagination: { count: 1, next: null, prev: null }
+    })
+  )
+
+  await expect(
+    getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
+  ).rejects.toThrow('no matching deployments found')
+  expect(fetch).toBeCalledTimes(1)
+})
+
+test('getDeploymentUrl() should stop after 10 pages', async () => {
+  fetch.mockImplementation(async () =>
+    createFetchResponse({
+      deployments: [deployment('other-1.vercel.app', 'main')],
+      pagination: { count: 1, next: 1700000000000, prev: null }
+    })
+  )
+
+  await expect(
+    getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
+  ).rejects.toThrow('no matching deployments found')
+  expect(fetch).toBeCalledTimes(10)
+})
+
 test('getDeploymentUrl() should report the Vercel error message on a 403', async () => {
   const data = {
     error: {
@@ -132,4 +197,41 @@ test('getDeploymentUrl() should report the status when the error body is not JSO
   await expect(
     getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
   ).rejects.toThrow(/502/)
+})
+
+test('getDeploymentUrl() should throw the API error when a later page fails', async () => {
+  fetch.mockResolvedValueOnce(
+    createFetchResponse({
+      deployments: [deployment('other-1.vercel.app', 'main')],
+      pagination: { count: 1, next: 1700000000000, prev: null }
+    })
+  )
+  fetch.mockResolvedValueOnce(
+    createFetchResponse(
+      { error: { code: 'rate_limited', message: 'Too many requests' } },
+      { ok: false, status: 429 }
+    )
+  )
+
+  await expect(
+    getDeploymentUrl('zentered', 'fix/huge-bug', { teamId: 'zentered.co' })
+  ).rejects.toThrow(/429.*Too many requests/)
+  expect(fetch).toBeCalledTimes(2)
+})
+
+test('getDeploymentUrl() should skip deployments without meta', async () => {
+  fetch.mockResolvedValueOnce(
+    createFetchResponse({
+      deployments: [
+        { name: 'cli-deploy', url: 'cli-1.vercel.app', state: 'READY' },
+        deployment('match-2.vercel.app', 'fix/huge-bug')
+      ],
+      pagination: { count: 2, next: null, prev: null }
+    })
+  )
+
+  const { url } = await getDeploymentUrl('zentered', 'fix/huge-bug', {
+    teamId: 'zentered.co'
+  })
+  expect(url).toEqual('match-2.vercel.app')
 })
